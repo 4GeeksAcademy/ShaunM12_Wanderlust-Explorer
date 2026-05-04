@@ -29,19 +29,6 @@ const BADGE_LABELS: Record<NonNullable<Experience["badge"]>, { english: string; 
   "Travelers Choice": { english: "Travelers Choice", spanish: "Eleccion de viajeros" },
 };
 
-const TITLE_LABELS: Record<string, { english: string; spanish: string }> = {
-  "Guided City Highlights": { english: "Guided City Highlights", spanish: "Lo mejor de la ciudad con guia" },
-  "Sunset Panorama Tour": { english: "Sunset Panorama Tour", spanish: "Tour panoramico al atardecer" },
-  "Hidden Gems Walking Tour": { english: "Hidden Gems Walking Tour", spanish: "Caminata por joyas ocultas" },
-  "Museum and Culture Pass": { english: "Museum and Culture Pass", spanish: "Pase de museos y cultura" },
-  "Landmark Priority Entry": { english: "Landmark Priority Entry", spanish: "Entrada prioritaria a monumentos" },
-  "Neighborhood Food Crawl": { english: "Neighborhood Food Crawl", spanish: "Ruta gastronomica por barrios" },
-  "Riverside Evening Cruise": { english: "Riverside Evening Cruise", spanish: "Crucero nocturno junto al rio" },
-  "Historic District Discovery": { english: "Historic District Discovery", spanish: "Descubrimiento del distrito historico" },
-  "Scenic Full-Day Escape": { english: "Scenic Full-Day Escape", spanish: "Escapada panoramica de dia completo" },
-  "Top Attractions Fast Track": { english: "Top Attractions Fast Track", spanish: "Acceso rapido a atracciones top" },
-};
-
 const DESCRIPTION_LABELS: Record<string, { english: string; spanish: string }> = {
   "Explore iconic landmarks with a local expert and small-group pacing.": {
     english: "Explore iconic landmarks with a local expert and small-group pacing.",
@@ -63,35 +50,69 @@ const DESCRIPTION_LABELS: Record<string, { english: string; spanish: string }> =
     english: "Take in unforgettable views, regional flavors, and authentic culture.",
     spanish: "Disfruta vistas inolvidables, sabores regionales y cultura autentica.",
   },
+  "Push your limits with guided action-focused routes, expert support, and epic viewpoints.": {
+    english: "Push your limits with guided action-focused routes, expert support, and epic viewpoints.",
+    spanish: "Lleva tus limites al maximo con rutas de accion guiadas, apoyo experto y vistas epicas.",
+  },
+  "Dive into local history, architecture, and traditions through immersive storytelling.": {
+    english: "Dive into local history, architecture, and traditions through immersive storytelling.",
+    spanish: "Sumergente en la historia local, arquitectura y tradiciones con relatos inmersivos.",
+  },
+  "Taste signature local flavors with curated stops, chef insights, and unforgettable bites.": {
+    english: "Taste signature local flavors with curated stops, chef insights, and unforgettable bites.",
+    spanish: "Prueba sabores locales emblematicos con paradas seleccionadas, consejos de chefs y bocados inolvidables.",
+  },
+  "Recharge body and mind with calming rituals, restorative sessions, and scenic settings.": {
+    english: "Recharge body and mind with calming rituals, restorative sessions, and scenic settings.",
+    spanish: "Recarga cuerpo y mente con rituales relajantes, sesiones restaurativas y entornos escenicos.",
+  },
+  "Explore protected landscapes and wildlife-rich routes with a low-impact, eco-first approach.": {
+    english: "Explore protected landscapes and wildlife-rich routes with a low-impact, eco-first approach.",
+    spanish: "Explora paisajes protegidos y rutas ricas en vida silvestre con un enfoque ecologico y de bajo impacto.",
+  },
 };
 
 const CITY_TRANSLATIONS: Record<string, { english: string; spanish: string }> = {
-  Paris: { english: "Paris", spanish: "Paris" },
-  Rome: { english: "Rome", spanish: "Roma" },
-  Barcelona: { english: "Barcelona", spanish: "Barcelona" },
-  London: { english: "London", spanish: "Londres" },
-  "New York": { english: "New York", spanish: "Nueva York" },
-  Tokyo: { english: "Tokyo", spanish: "Tokio" },
-  "Cape Town": { english: "Cape Town", spanish: "Ciudad del Cabo" },
-  Sydney: { english: "Sydney", spanish: "Sidney" },
+  Queenstown: { english: "Queenstown", spanish: "Queenstown" },
+  Banff: { english: "Banff", spanish: "Banff" },
+  Cusco: { english: "Cusco", spanish: "Cusco" },
+  Marrakech: { english: "Marrakech", spanish: "Marrakech" },
   Reykjavik: { english: "Reykjavik", spanish: "Reikiavik" },
-  Dubai: { english: "Dubai", spanish: "Dubai" },
+  Kyoto: { english: "Kyoto", spanish: "Kioto" },
+  Seville: { english: "Seville", spanish: "Sevilla" },
+  Istanbul: { english: "Istanbul", spanish: "Estambul" },
+  "Mexico City": { english: "Mexico City", spanish: "Ciudad de Mexico" },
+  Lisbon: { english: "Lisbon", spanish: "Lisboa" },
+  Hanoi: { english: "Hanoi", spanish: "Hanói" },
+  "Cape Town": { english: "Cape Town", spanish: "Ciudad del Cabo" },
+  Bali: { english: "Bali", spanish: "Bali" },
+  Dubrovnik: { english: "Dubrovnik", spanish: "Dubrovnik" },
+  Athens: { english: "Athens", spanish: "Atenas" },
+  Edinburgh: { english: "Edinburgh", spanish: "Edimburgo" },
+  Auckland: { english: "Auckland", spanish: "Auckland" },
+  "Chiang Mai": { english: "Chiang Mai", spanish: "Chiang Mai" },
+  Patagonia: { english: "Patagonia", spanish: "Patagonia" },
+  Santorini: { english: "Santorini", spanish: "Santorini" },
 };
 
 const COUNTRY_TRANSLATIONS: Record<string, { english: string; spanish: string }> = {
-  France: { english: "France", spanish: "Francia" },
-  Italy: { english: "Italy", spanish: "Italia" },
-  Spain: { english: "Spain", spanish: "Espana" },
-  "United Kingdom": { english: "United Kingdom", spanish: "Reino Unido" },
-  "United States": { english: "United States", spanish: "Estados Unidos" },
-  Japan: { english: "Japan", spanish: "Japon" },
-  "South Africa": { english: "South Africa", spanish: "Sudafrica" },
-  Australia: { english: "Australia", spanish: "Australia" },
+  "New Zealand": { english: "New Zealand", spanish: "Nueva Zelanda" },
+  Canada: { english: "Canada", spanish: "Canada" },
+  Peru: { english: "Peru", spanish: "Peru" },
+  Morocco: { english: "Morocco", spanish: "Marruecos" },
   Iceland: { english: "Iceland", spanish: "Islandia" },
-  "United Arab Emirates": {
-    english: "United Arab Emirates",
-    spanish: "Emiratos Arabes Unidos",
-  },
+  Japan: { english: "Japan", spanish: "Japon" },
+  Spain: { english: "Spain", spanish: "Espana" },
+  Turkey: { english: "Turkey", spanish: "Turquia" },
+  Mexico: { english: "Mexico", spanish: "Mexico" },
+  Portugal: { english: "Portugal", spanish: "Portugal" },
+  Vietnam: { english: "Vietnam", spanish: "Vietnam" },
+  "South Africa": { english: "South Africa", spanish: "Sudafrica" },
+  Indonesia: { english: "Indonesia", spanish: "Indonesia" },
+  Croatia: { english: "Croatia", spanish: "Croacia" },
+  Greece: { english: "Greece", spanish: "Grecia" },
+  Scotland: { english: "Scotland", spanish: "Escocia" },
+  Argentina: { english: "Argentina", spanish: "Argentina" },
 };
 
 const CANCELLATION_LABELS: Record<string, { english: string; spanish: string }> = {
@@ -123,17 +144,14 @@ function translateDestination(destination: string, isSpanish: boolean) {
 }
 
 function translateTitle(title: string, isSpanish: boolean) {
-  const sortedTitleKeys = Object.keys(TITLE_LABELS).sort((a, b) => b.length - a.length);
+  const sortedCities = Object.keys(CITY_TRANSLATIONS).sort((a, b) => b.length - a.length);
 
-  for (const key of sortedTitleKeys) {
-    if (title.endsWith(key)) {
-      const city = title.slice(0, -key.length).trim();
-      const translatedCity = translateByLanguage(
-        CITY_TRANSLATIONS[city] ?? { english: city, spanish: city },
-        isSpanish
-      );
-      const translatedSuffix = translateByLanguage(TITLE_LABELS[key], isSpanish);
-      return `${translatedCity} ${translatedSuffix}`;
+  for (const city of sortedCities) {
+    const prefix = `${city} `;
+    if (title.startsWith(prefix)) {
+      const translatedCity = translateByLanguage(CITY_TRANSLATIONS[city], isSpanish);
+      const activitySuffix = title.slice(prefix.length);
+      return `${translatedCity} ${activitySuffix}`;
     }
   }
 
