@@ -1,0 +1,31 @@
+<svg width="320" height="96" viewBox="0 0 320 96" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Wanderlust Explorer Logo</title>
+  <desc id="desc">Compass-inspired travel logo with a sky accent and brand wordmark.</desc>
+
+  <defs>
+    <linearGradient id="ringGradient" x1="12" y1="12" x2="84" y2="84" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F172A"/>
+      <stop offset="1" stop-color="#334155"/>
+    </linearGradient>
+    <linearGradient id="accentGradient" x1="24" y1="20" x2="76" y2="76" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7DD3FC"/>
+      <stop offset="1" stop-color="#0EA5E9"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(8 8)">
+    <circle cx="40" cy="40" r="34" fill="white" stroke="url(#ringGradient)" stroke-width="6"/>
+    <circle cx="40" cy="40" r="18" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2.5"/>
+
+    <path d="M40 14 L48 40 L40 66 L32 40 Z" fill="url(#accentGradient)"/>
+    <path d="M14 40 L40 48 L66 40 L40 32 Z" fill="#1E293B" fill-opacity="0.9"/>
+
+    <circle cx="40" cy="40" r="4.2" fill="#0F172A"/>
+  </g>
+
+  <g transform="translate(96 22)" fill="#0F172A">
+    <text x="0" y="24" font-family="Geist, Inter, system-ui, sans-serif" font-size="22" font-weight="700" letter-spacing="0.4">WANDERLUST</text>
+    <text x="0" y="48" font-family="Geist, Inter, system-ui, sans-serif" font-size="22" font-weight="300" letter-spacing="1.6">EXPLORER</text>
+    <rect x="0" y="56" width="168" height="4" rx="2" fill="#0EA5E9"/>
+  </g>
+</svg>
