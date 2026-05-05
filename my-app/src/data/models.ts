@@ -1,13 +1,16 @@
-export type LanguageOption = "english" | "spanish";
+export type LanguageOption = "english" | "spanish" | "japanese";
 
 export type CurrencyOption = "USD" | "EUR" | "GBP" | "JPY" | "AUD" | "CNY";
+export type ColorSchemeOption = "light" | "dark";
 
 export const languageOptions: LanguageOption[] = [
   "english",
   "spanish",
+  "japanese",
 ];
 
 export const currencyOptions: CurrencyOption[] = ["USD", "EUR", "GBP", "JPY", "AUD", "CNY"];
+export const colorSchemeOptions: ColorSchemeOption[] = ["light", "dark"];
 
 export type User = {
   id: string;

@@ -2,8 +2,10 @@
 
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import {
+  colorSchemeOptions,
   currencyOptions,
   languageOptions,
+  type ColorSchemeOption,
   type CurrencyOption,
   type LanguageOption,
 } from "@/data/models";
@@ -11,20 +13,23 @@ import {
 type AppSettingsContextValue = {
   language: LanguageOption;
   currency: CurrencyOption;
+  colorScheme: ColorSchemeOption;
   locale: string;
   setLanguage: (language: LanguageOption) => void;
   setCurrency: (currency: CurrencyOption) => void;
+  setColorScheme: (scheme: ColorSchemeOption) => void;
 };
 
 const LANGUAGE_TO_LOCALE: Record<LanguageOption, string> = {
   english: "en-US",
   spanish: "es-ES",
+  japanese: "ja-JP",
 };
 
 const AppSettingsContext = createContext<AppSettingsContextValue | null>(null);
 
-const STORAGE_LANGUAGE_KEY = "wanderlust.language";
 const STORAGE_CURRENCY_KEY = "wanderlust.currency";
+const STORAGE_COLOR_SCHEME_KEY = "wanderlust.colorScheme";
 
 type AppSettingsProviderProps = {
   children: ReactNode;
@@ -33,17 +38,11 @@ type AppSettingsProviderProps = {
 export function AppSettingsProvider({ children }: AppSettingsProviderProps) {
   const [language, setLanguageState] = useState<LanguageOption>("english");
   const [currency, setCurrencyState] = useState<CurrencyOption>("USD");
+  const [colorScheme, setColorSchemeState] = useState<ColorSchemeOption>("light");
 
   useEffect(() => {
-    const storedLanguage = window.localStorage.getItem(STORAGE_LANGUAGE_KEY);
     const storedCurrency = window.localStorage.getItem(STORAGE_CURRENCY_KEY);
-
-    if (
-      storedLanguage &&
-      languageOptions.includes(storedLanguage as LanguageOption)
-    ) {
-      setLanguageState(storedLanguage as LanguageOption);
-    }
+    const storedColorScheme = window.localStorage.getItem(STORAGE_COLOR_SCHEME_KEY);
 
     if (
       storedCurrency &&
@@ -51,16 +50,33 @@ export function AppSettingsProvider({ children }: AppSettingsProviderProps) {
     ) {
       setCurrencyState(storedCurrency as CurrencyOption);
     }
+
+    if (
+      storedColorScheme &&
+      colorSchemeOptions.includes(storedColorScheme as ColorSchemeOption)
+    ) {
+      setColorSchemeState(storedColorScheme as ColorSchemeOption);
+    }
   }, []);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.toggle("dark", colorScheme === "dark");
+    root.style.colorScheme = colorScheme;
+  }, [colorScheme]);
 
   function setLanguage(languageValue: LanguageOption) {
     setLanguageState(languageValue);
-    window.localStorage.setItem(STORAGE_LANGUAGE_KEY, languageValue);
   }
 
   function setCurrency(currencyValue: CurrencyOption) {
     setCurrencyState(currencyValue);
     window.localStorage.setItem(STORAGE_CURRENCY_KEY, currencyValue);
+  }
+
+  function setColorScheme(schemeValue: ColorSchemeOption) {
+    setColorSchemeState(schemeValue);
+    window.localStorage.setItem(STORAGE_COLOR_SCHEME_KEY, schemeValue);
   }
 
   const locale = LANGUAGE_TO_LOCALE[language];
@@ -69,11 +85,13 @@ export function AppSettingsProvider({ children }: AppSettingsProviderProps) {
     () => ({
       language,
       currency,
+      colorScheme,
       locale,
       setLanguage,
       setCurrency,
+      setColorScheme,
     }),
-    [currency, language, locale]
+    [colorScheme, currency, language, locale]
   );
 
   return <AppSettingsContext.Provider value={value}>{children}</AppSettingsContext.Provider>;
@@ -91,3 +109,4 @@ export function useAppSettings() {
 
 export const appLanguageOptions = languageOptions;
 export const appCurrencyOptions = currencyOptions;
+export const appColorSchemeOptions = colorSchemeOptions;

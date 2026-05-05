@@ -26,15 +26,28 @@ export function SearchBar({
   onSubmit,
 }: SearchBarProps) {
   const { language } = useAppSettings();
-  const isSpanish = language === "spanish";
+
+  const labels = {
+    english: {
+      placeholder: "Search experiences or destinations",
+      submit: "Search",
+    },
+    spanish: {
+      placeholder: "Buscar experiencias o destinos",
+      submit: "Buscar",
+    },
+    japanese: {
+      placeholder: "体験または目的地を検索",
+      submit: "検索",
+    },
+  } as const;
+
+  const text = labels[language];
 
   const resolvedPlaceholder =
-    placeholder ??
-    (isSpanish
-      ? "Buscar experiencias o destinos"
-      : "Search experiences or destinations");
+    placeholder ?? text.placeholder;
 
-  const resolvedSubmitLabel = submitLabel ?? (isSpanish ? "Buscar" : "Search");
+  const resolvedSubmitLabel = submitLabel ?? text.submit;
 
   const isControlled = typeof value === "string";
   const [internalQuery, setInternalQuery] = useState(defaultValue);
@@ -73,18 +86,22 @@ export function SearchBar({
   }
 
   return (
-    <form action={action} onSubmit={handleSubmit} className="flex w-full items-center gap-2">
+    <form
+      action={action}
+      onSubmit={handleSubmit}
+      className="flex w-full items-center gap-0 border border-stone-300 bg-stone-50 shadow-sm dark:border-stone-600 dark:bg-stone-900"
+    >
       <input
         type="search"
         name="q"
         value={query}
         onChange={(event) => handleChange(event.target.value)}
         placeholder={resolvedPlaceholder}
-        className={`w-full rounded-full border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-100 ${compact ? "text-sm" : "text-base"}`}
+        className={`w-full border-0 bg-transparent px-4 py-3 font-medium text-stone-700 outline-none transition placeholder:text-stone-400 focus:bg-amber-50/50 dark:text-stone-100 dark:placeholder:text-stone-500 dark:focus:bg-stone-800 ${compact ? "text-sm" : "text-base"}`}
       />
       <button
         type="submit"
-        className="rounded-full bg-slate-900 px-4 py-3 text-sm font-bold text-white transition hover:bg-slate-700"
+        className="border-l border-stone-300 bg-emerald-800 px-5 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-stone-100 transition hover:bg-emerald-700 dark:border-stone-600 dark:bg-emerald-900 dark:text-emerald-50 dark:hover:bg-emerald-800"
       >
         {resolvedSubmitLabel}
       </button>

@@ -7,21 +7,33 @@ import { experiences } from "@/data/experiences";
 
 export default function FavoritesPage() {
   const { language } = useAppSettings();
-  const isSpanish = language === "spanish";
+  const text = {
+    english: {
+      title: "Your Favorites",
+      subtitle: (count: number) => `${count} experiences you have selected.`,
+    },
+    spanish: {
+      title: "Tus favoritos",
+      subtitle: (count: number) => `${count} experiencias seleccionadas por ti.`,
+    },
+    japanese: {
+      title: "お気に入り",
+      subtitle: (count: number) => `選択した体験は${count}件です。`,
+    },
+  } as const;
+
+  const labels = text[language];
   const { favoriteIdSet, isFavorite, toggleFavorite } = useFavorites();
 
   const favoriteExperiences = experiences.filter((experience) => favoriteIdSet.has(experience.id));
 
   return (
     <section className="space-y-6">
-      <div className="space-y-2">
-        <h1 className="text-3xl font-black text-slate-900 sm:text-4xl">
-          {isSpanish ? "Tus favoritos" : "Your Favorites"}
-        </h1>
-        <p className="text-sm text-slate-600">
-          {isSpanish
-            ? `${favoriteExperiences.length} experiencias seleccionadas por ti.`
-            : `${favoriteExperiences.length} experiences you have selected.`}
+      <div className="space-y-2 border border-stone-300 bg-stone-50 p-6 shadow-sm dark:border-stone-700 dark:bg-stone-900">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-800/80 dark:text-amber-300/80">Wishlist Collection</p>
+        <h1 className="font-serif text-5xl font-semibold text-stone-800 dark:text-stone-100 sm:text-6xl">{labels.title}</h1>
+        <p className="text-sm font-medium text-stone-600 dark:text-stone-300">
+          {labels.subtitle(favoriteExperiences.length)}
         </p>
       </div>
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">

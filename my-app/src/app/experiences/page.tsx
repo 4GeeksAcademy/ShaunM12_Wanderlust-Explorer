@@ -32,14 +32,66 @@ function ExperiencesPageContent() {
   const searchParams = useSearchParams();
   const { language } = useAppSettings();
   const { isFavorite, toggleFavorite } = useFavorites();
-  const isSpanish = language === "spanish";
+
+  const labels = {
+    english: {
+      search: "Search",
+      category: "Category",
+      destination: "Destination",
+      title: "All Experiences",
+      subtitle: "Showing all experiences in an easy to use explorer grid",
+      removeFilter: "Remove",
+      clearAll: "Clear all",
+      noResults: "No results found for your current filters.",
+      loading: "Loading experiences...",
+      adventure: "Adventure",
+      culture: "Culture",
+      food: "Food",
+      wellness: "Wellness",
+      nature: "Nature",
+    },
+    spanish: {
+      search: "Búsqueda",
+      category: "Categoría",
+      destination: "Destino",
+      title: "Todas las experiencias",
+      subtitle: "Mostrando todas las experiencias en una cuadrícula del explorador fácil de usar.",
+      removeFilter: "Quitar filtro",
+      clearAll: "Limpiar todo",
+      noResults: "No se encontraron resultados con tus filtros actuales.",
+      loading: "Cargando experiencias...",
+      adventure: "Aventura",
+      culture: "Cultura",
+      food: "Gastronomía",
+      wellness: "Bienestar",
+      nature: "Naturaleza",
+    },
+    japanese: {
+      search: "検索",
+      category: "カテゴリ",
+      destination: "目的地",
+      title: "すべての体験",
+      subtitle: "使いやすい探索グリッドですべての体験を表示しています。",
+      removeFilter: "フィルターを削除",
+      clearAll: "すべてクリア",
+      noResults: "現在のフィルターに一致する結果が見つかりません。",
+      loading: "体験を読み込み中...",
+      adventure: "アドベンチャー",
+      culture: "カルチャー",
+      food: "グルメ",
+      wellness: "ウェルネス",
+      nature: "自然",
+    },
+  } as const;
+
+  const text = labels[language];
 
   const categoryLabels: Record<string, string> = {
-    adventure: isSpanish ? "Aventura" : "Adventure",
-    culture: isSpanish ? "Cultura" : "Culture",
-    food: isSpanish ? "Gastronomia" : "Food",
-    wellness: isSpanish ? "Bienestar" : "Wellness",
-    nature: isSpanish ? "Naturaleza" : "Nature",
+    adventure: text.adventure,
+    culture: text.culture,
+    food: text.food,
+    wellness: text.wellness,
+    nature: text.nature,
   };
 
   const query = (searchParams.get("q") ?? "").trim();
@@ -87,7 +139,7 @@ function ExperiencesPageContent() {
   const categorySearchAliases: Record<string, string[]> = {
     adventure: ["adventure", "aventura"],
     culture: ["culture", "cultura"],
-    food: ["food", "gastronomia", "comida"],
+    food: ["food", "gastronomia", "gastronomía", "comida"],
     wellness: ["wellness", "bienestar"],
     nature: ["nature", "naturaleza"],
   };
@@ -121,21 +173,21 @@ function ExperiencesPageContent() {
     query
       ? {
           id: "q",
-          label: `${isSpanish ? "Busqueda" : "Search"}: ${query}`,
+          label: `${text.search}: ${query}`,
           onRemove: () => applyFilters({ query: "" }),
         }
       : null,
     selectedCategory
       ? {
           id: "category",
-          label: `${isSpanish ? "Categoria" : "Category"}: ${categoryLabels[selectedCategory] ?? selectedCategory}`,
+          label: `${text.category}: ${categoryLabels[selectedCategory] ?? selectedCategory}`,
           onRemove: () => applyFilters({ category: "" }),
         }
       : null,
     destinationFilter
       ? {
           id: "destination",
-          label: `${isSpanish ? "Destino" : "Destination"}: ${destinationFilter}`,
+          label: `${text.destination}: ${destinationFilter}`,
           onRemove: () => applyFilters({ destination: "" }),
         }
       : null,
@@ -145,14 +197,11 @@ function ExperiencesPageContent() {
 
   return (
     <section className="space-y-6">
-      <div className="space-y-2">
-        <h1 className="text-3xl font-black text-slate-900 sm:text-4xl">
-          {isSpanish ? "Todas las experiencias" : "All Experiences"}
-        </h1>
-        <p className="text-sm text-slate-600">
-          {isSpanish
-            ? "Mostrando todas las experiencias en una cuadrícula del explorador facil de usar."
-            : "Showing all experiences in an easy to use explorer grid"}
+      <div className="space-y-2 border border-stone-300 bg-stone-50 p-6 shadow-sm dark:border-stone-700 dark:bg-stone-900">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-800/80 dark:text-emerald-300/80">Editorial Explorer</p>
+        <h1 className="font-serif text-5xl font-semibold text-stone-800 dark:text-stone-100 sm:text-6xl">{text.title}</h1>
+        <p className="max-w-2xl text-sm font-medium text-stone-600 dark:text-stone-300">
+          {text.subtitle}
         </p>
       </div>
       <SearchBar
@@ -170,14 +219,14 @@ function ExperiencesPageContent() {
         onDestinationChange={(value) => applyFilters({ destination: value })}
       />
       {hasActiveFilters && (
-        <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-slate-200 bg-white p-3">
+        <div className="flex flex-wrap items-center gap-2 border border-stone-300 bg-stone-50 p-3 shadow-sm dark:border-stone-700 dark:bg-stone-900">
           {activeFilters.map((filter) => (
             <button
               key={filter.id}
               type="button"
               onClick={filter.onRemove}
-              className="rounded-full border border-slate-300 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700 transition hover:bg-slate-100"
-              aria-label={isSpanish ? `Quitar filtro ${filter.label}` : `Remove ${filter.label} filter`}
+              className="border border-stone-300 bg-stone-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-stone-700 transition hover:border-amber-300 hover:text-stone-900 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-200 dark:hover:border-amber-700 dark:hover:text-amber-100"
+              aria-label={`${text.removeFilter}: ${filter.label}`}
             >
               {filter.label} x
             </button>
@@ -185,17 +234,15 @@ function ExperiencesPageContent() {
           <button
             type="button"
             onClick={() => applyFilters({ query: "", category: "", destination: "" })}
-            className="ml-auto rounded-full border border-slate-300 px-3 py-1 text-xs font-semibold text-slate-700 transition hover:bg-slate-100"
+            className="ml-auto border border-emerald-900 bg-emerald-900 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-emerald-50 transition hover:bg-emerald-800 dark:border-emerald-700 dark:bg-emerald-800 dark:hover:bg-emerald-700"
           >
-            {isSpanish ? "Limpiar todo" : "Clear all"}
+            {text.clearAll}
           </button>
         </div>
       )}
       {filteredExperiences.length === 0 ? (
-        <p className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600">
-          {isSpanish
-            ? "No se encontraron resultados con tus filtros actuales."
-            : "No results found for your current filters."}
+        <p className="border border-stone-300 bg-stone-50 p-6 text-sm font-medium text-stone-600 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-300">
+          {text.noResults}
         </p>
       ) : (
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -217,19 +264,21 @@ function ExperiencesPageContent() {
 
 export default function ExperiencesPage() {
   const { language } = useAppSettings();
-  const isSpanish = language === "spanish";
+  const loadingText = {
+    english: { title: "All Experiences", body: "Loading experiences..." },
+    spanish: { title: "Todas las experiencias", body: "Cargando experiencias..." },
+    japanese: { title: "すべての体験", body: "体験を読み込み中..." },
+  } as const;
+
+  const text = loadingText[language];
 
   return (
     <Suspense
       fallback={
         <section className="space-y-6">
-          <div className="space-y-2">
-            <h1 className="text-3xl font-black text-slate-900 sm:text-4xl">
-              {isSpanish ? "Todas las experiencias" : "All Experiences"}
-            </h1>
-            <p className="text-sm text-slate-600">
-              {isSpanish ? "Cargando experiencias..." : "Loading experiences..."}
-            </p>
+          <div className="space-y-2 border border-stone-300 bg-stone-50 p-6 dark:border-stone-700 dark:bg-stone-900">
+            <h1 className="font-serif text-5xl font-semibold text-stone-800 dark:text-stone-100 sm:text-6xl">{text.title}</h1>
+            <p className="text-sm font-medium text-stone-600 dark:text-stone-300">{text.body}</p>
           </div>
         </section>
       }

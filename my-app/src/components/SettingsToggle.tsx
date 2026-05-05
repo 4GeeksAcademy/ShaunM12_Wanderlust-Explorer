@@ -2,29 +2,61 @@
 
 import { useEffect, useRef, useState } from "react";
 import {
+  appColorSchemeOptions,
   appCurrencyOptions,
   appLanguageOptions,
   useAppSettings,
 } from "@/context/AppSettingsContext";
-import type { CurrencyOption, LanguageOption } from "@/data/models";
+import type { ColorSchemeOption, CurrencyOption, LanguageOption } from "@/data/models";
 
 const languageNames = {
-  english: { english: "English", spanish: "Ingles" },
-  spanish: { english: "Spanish", spanish: "Espanol" },
+  english: { english: "English", spanish: "Inglés", japanese: "英語" },
+  spanish: { english: "Spanish", spanish: "Español", japanese: "スペイン語" },
+  japanese: { english: "Japanese", spanish: "Japonés", japanese: "日本語" },
+} as const;
+
+const colorSchemeNames = {
+  light: { english: "Light", spanish: "Claro", japanese: "ライト" },
+  dark: { english: "Dark", spanish: "Oscuro", japanese: "ダーク" },
+} as const;
+
+const uiLabels = {
+  english: {
+    language: "Language",
+    currency: "Currency",
+    colorScheme: "Color scheme",
+    close: "Close",
+    settings: "Settings",
+    closeSettings: "Close settings",
+  },
+  spanish: {
+    language: "Idioma",
+    currency: "Moneda",
+    colorScheme: "Esquema de color",
+    close: "Cerrar",
+    settings: "Configuración",
+    closeSettings: "Cerrar configuración",
+  },
+  japanese: {
+    language: "言語",
+    currency: "通貨",
+    colorScheme: "カラースキーム",
+    close: "閉じる",
+    settings: "設定",
+    closeSettings: "設定を閉じる",
+  },
 } as const;
 
 export function SettingsToggle() {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const { language, currency, setLanguage, setCurrency } = useAppSettings();
-  const isSpanish = language === "spanish";
-
-  const languageLabel = isSpanish ? "Idioma" : "Language";
-  const currencyLabel = isSpanish ? "Moneda" : "Currency";
-  const closeLabel = isSpanish ? "Cerrar" : "Close";
-  const ariaLabel = isSpanish
-    ? `${languageLabel} ${languageNames[language].spanish}, ${currencyLabel} ${currency}`
-    : `${languageLabel} ${languageNames[language].english}, ${currencyLabel} ${currency}`;
+  const { language, currency, colorScheme, setLanguage, setCurrency, setColorScheme } = useAppSettings();
+  const labels = uiLabels[language];
+  const languageLabel = labels.language;
+  const currencyLabel = labels.currency;
+  const colorSchemeLabel = labels.colorScheme;
+  const closeLabel = labels.close;
+  const ariaLabel = `${languageLabel} ${languageNames[language][language]}, ${currencyLabel} ${currency}, ${colorSchemeLabel} ${colorSchemeNames[colorScheme][language]}`;
 
   useEffect(() => {
     if (!open) {
@@ -54,10 +86,10 @@ export function SettingsToggle() {
       <button
         type="button"
         onClick={() => setOpen((current) => !current)}
-        className={`flex h-12 w-12 items-center justify-center rounded-full border transition ${
+        className={`flex h-11 w-11 items-center justify-center border shadow-sm transition ${
           open
-            ? "border-slate-400 bg-slate-200"
-            : "border-slate-200 bg-slate-100 hover:bg-slate-200"
+            ? "border-amber-300 bg-amber-100 text-stone-900 dark:border-amber-700 dark:bg-amber-900/40 dark:text-amber-100"
+            : "border-stone-300 bg-stone-50 text-stone-700 hover:border-amber-300 hover:text-stone-900 dark:border-stone-600 dark:bg-stone-900 dark:text-stone-100 dark:hover:border-amber-700 dark:hover:text-amber-100"
         }`}
         aria-expanded={open}
         aria-haspopup="dialog"
@@ -66,7 +98,7 @@ export function SettingsToggle() {
         <svg
           aria-hidden="true"
           viewBox="0 0 24 24"
-          className="h-6 w-6 text-slate-900"
+          className="h-6 w-6 text-slate-900 dark:text-slate-100"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -79,48 +111,64 @@ export function SettingsToggle() {
 
       {open ? (
         <div
-          className="absolute right-0 z-30 mt-2 w-64 space-y-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-lg"
+          className="absolute right-0 z-30 mt-2 w-64 space-y-3 border border-stone-300 bg-stone-50 p-4 shadow-xl dark:border-stone-600 dark:bg-stone-900"
           role="dialog"
-          aria-label={isSpanish ? "Configuracion" : "Settings"}
+          aria-label={labels.settings}
         >
           <div className="flex items-center justify-between">
-            <p className="text-sm font-semibold text-slate-700">
-              {isSpanish ? "Configuracion" : "Settings"}
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-700 dark:text-stone-200">
+              {labels.settings}
             </p>
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="rounded-md px-2 py-1 text-xs font-semibold text-slate-600 transition hover:bg-slate-100"
+              className="border border-stone-300 bg-stone-100 px-2 py-1 text-xs font-semibold uppercase tracking-wide text-stone-700 transition hover:border-amber-300 hover:text-stone-900 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-200 dark:hover:border-amber-700 dark:hover:text-amber-100"
+              aria-label={labels.closeSettings}
             >
               {closeLabel}
             </button>
           </div>
 
           <label className="block text-sm">
-            <span className="mb-1 block font-semibold text-slate-700">{languageLabel}</span>
+            <span className="mb-1 block font-semibold uppercase tracking-[0.15em] text-stone-600 dark:text-stone-300">{languageLabel}</span>
             <select
               value={language}
               onChange={(event) => setLanguage(event.target.value as LanguageOption)}
-              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-800"
+              className="w-full border border-stone-300 bg-white px-3 py-2 font-medium text-stone-700 outline-none transition focus:border-amber-300 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-amber-700"
             >
               {appLanguageOptions.map((option) => (
                 <option key={option} value={option}>
-                  {isSpanish ? languageNames[option].spanish : languageNames[option].english}
+                  {languageNames[option][language]}
                 </option>
               ))}
             </select>
           </label>
 
           <label className="block text-sm">
-            <span className="mb-1 block font-semibold text-slate-700">{currencyLabel}</span>
+            <span className="mb-1 block font-semibold uppercase tracking-[0.15em] text-stone-600 dark:text-stone-300">{currencyLabel}</span>
             <select
               value={currency}
               onChange={(event) => setCurrency(event.target.value as CurrencyOption)}
-              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-800"
+              className="w-full border border-stone-300 bg-white px-3 py-2 font-medium text-stone-700 outline-none transition focus:border-amber-300 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-amber-700"
             >
               {appCurrencyOptions.map((option) => (
                 <option key={option} value={option}>
                   {option}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label className="block text-sm">
+            <span className="mb-1 block font-semibold uppercase tracking-[0.15em] text-stone-600 dark:text-stone-300">{colorSchemeLabel}</span>
+            <select
+              value={colorScheme}
+              onChange={(event) => setColorScheme(event.target.value as ColorSchemeOption)}
+              className="w-full border border-stone-300 bg-white px-3 py-2 font-medium text-stone-700 outline-none transition focus:border-amber-300 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-amber-700"
+            >
+              {appColorSchemeOptions.map((option) => (
+                <option key={option} value={option}>
+                  {colorSchemeNames[option][language]}
                 </option>
               ))}
             </select>
